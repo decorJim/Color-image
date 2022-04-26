@@ -33,8 +33,8 @@
                         <br>
                         <div>{{msg.message}}</div>
                         <br>
-                        <img [src]="msg.avatar">
                     </div>
+                    <img *ngIf="msg.nickname!=currentNickname" [src]="msg.avatar">
                     <div *ngIf="msg.nickname==currentNickname" class="my-chat">
                       
                         <div style="display:inline">{{msg.nickname}}</div>
@@ -42,9 +42,9 @@
                         <div style="display:inline">{{ msg.time }}</div>
                         <br>
                         <div>{{msg.message}}</div>
-                        <br>
-                        <img [src]="msg.avatar">    
+                        <br>    
                     </div>
+                    <img *ngIf="msg.nickname==currentNickname" [src]="msg.avatar" style="margin-left:375px;left:600px;">
                     
                </div>
        

@@ -85,29 +85,7 @@ export class ChatComponent implements AfterViewInit {
       document.getElementById("title9")!.style.color = LightPink.text;
     }
 
-    switch(this.socketService.avatarNumber) {
-      case "1":{
-        this.avatarCurrentUser="avatar1.png";
-        break;
-      }
-      case "2":{
-        this.avatarCurrentUser="avatar2.png";
-        break;
-      }
-      case "3":{
-        this.avatarCurrentUser="avatar3.png";
-        break;
-      }
-      case "4":{
-        this.avatarCurrentUser="avatar4.png";
-        break;
-      }
-      case "5":{
-        this.avatarCurrentUser="avatar5.png";
-        break;
-      }
-        
-    }
+
     console.info("AVATAR NUM FROM SOCKET",this.socketService.avatarNumber);
     this.avatarCurrentUser=this.socketService.avatarNumber;
     this.currentNickname=this.socketService.nickname;
@@ -132,7 +110,7 @@ export class ChatComponent implements AfterViewInit {
             time:formattedDate,
             nickname:data[i].nickname,
             message:data[i].message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-            avatar:"av"+data[i].avatar+".png"
+            avatar:"avatar"+data[i].avatar+".png"
           } 
           this.message.push(msg);
  
@@ -150,7 +128,7 @@ export class ChatComponent implements AfterViewInit {
             time:formattedDate,
             nickname:data[i].nickname,
             message:data[i].message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-            avatar:"av"+data[i].avatar+".png"
+            avatar:"avatar"+data[i].avatar+".png"
           } 
           this.message.push(msg);
 
@@ -181,7 +159,7 @@ export class ChatComponent implements AfterViewInit {
           time:formattedDate,
           nickname:data.msg.nickname,
           message:data.msg.message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-          avatar:"av"+data.msg.avatar+".png"
+          avatar:"avatar"+data.msg.avatar+".png"
         } 
         this.message.push(msg);
 
@@ -193,7 +171,7 @@ export class ChatComponent implements AfterViewInit {
           time:formattedDate,
           nickname:data.msg.nickname,
           message:data.msg.message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-          avatar:"av"+data.msg.avatar+".png"
+          avatar:"avatar"+data.msg.avatar+".png"
         } 
         this.message.push(msg);
 
@@ -253,7 +231,7 @@ export class ChatComponent implements AfterViewInit {
         time:formattedDate,
         nickname:this.socketService.nickname,
         message:text.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-        avatar:"av"+this.avatarCurrentUser+".png"
+        avatar:"avatar"+this.avatarCurrentUser+".png"
       }
 
       console.log("display",msgDisplay.avatar);
