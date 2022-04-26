@@ -32,16 +32,18 @@
                         <div style="display:inline">{{ msg.time }}</div>
                         <br>
                         <div>{{msg.message}}</div>
+                        <br>
+                        <img [src]="msg.avatar">
                     </div>
-
-                    <div *ngIf="(msg.nickname==currentNickname)" class="my-chat">
+                    <div *ngIf="msg.nickname==currentNickname" class="my-chat">
                       
                         <div style="display:inline">{{msg.nickname}}</div>
                         &nbsp;
                         <div style="display:inline">{{ msg.time }}</div>
                         <br>
                         <div>{{msg.message}}</div>
-                    
+                        <br>
+                        <img [src]="msg.avatar">    
                     </div>
                     
                </div>

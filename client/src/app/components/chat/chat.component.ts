@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { SocketService } from '@app/services/socket/socket.service';
-//import { catchError } from 'rxjs/operators';
-//import { RoomsComponent } from '../rooms/rooms.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { URL } from '../../../../constants';
@@ -32,8 +30,6 @@ export class ChatComponent implements AfterViewInit {
 
   public source: string;
   public source2: string;
-  // chatTitle: "Clavardage",
-  // changeRoom: "Changer de salle",
   public avatarCurrentUser:string;
   public avatarOtherUser:string;
 
@@ -113,7 +109,7 @@ export class ChatComponent implements AfterViewInit {
         
     }
     console.info("AVATAR NUM FROM SOCKET",this.socketService.avatarNumber);
-    this.avatarCurrentUser="avatar"+this.socketService.avatarNumber+".png";
+    this.avatarCurrentUser=this.socketService.avatarNumber;
     this.currentNickname=this.socketService.nickname;
 
     let link=this.BASE_URL+"message/getRoomMessages/" + `${this.socketService.currentRoom}`;  
@@ -136,16 +132,15 @@ export class ChatComponent implements AfterViewInit {
             time:formattedDate,
             nickname:data[i].nickname,
             message:data[i].message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-            avatar:data[i].avatar
+            avatar:"av"+data[i].avatar+".png"
           } 
           this.message.push(msg);
-          //this.others.push(formattedDate + '\n' + data[i].nickname + '\n' + data[i].message.replace(/(\r\n|\n|\r)/gm, " ") + '\n');
  
         }
 
         if (this.socketService.nickname != data[i].nickname) {
    
-          this.avatarOtherUser="avatar"+data[i].avatar+".png";
+          this.avatarOtherUser=data[i].avatar;
 
 
           console.info(this.avatarOtherUser);
@@ -155,7 +150,7 @@ export class ChatComponent implements AfterViewInit {
             time:formattedDate,
             nickname:data[i].nickname,
             message:data[i].message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-            avatar:data[i].avatar
+            avatar:"av"+data[i].avatar+".png"
           } 
           this.message.push(msg);
 
@@ -173,7 +168,7 @@ export class ChatComponent implements AfterViewInit {
    
         console.log("get in bruh");
 
-        this.avatarOtherUser="avatar"+data.msg.avatar+".png";
+        this.avatarOtherUser=data.msg.avatar;
 
 
         console.info(this.avatarOtherUser);
@@ -186,7 +181,7 @@ export class ChatComponent implements AfterViewInit {
           time:formattedDate,
           nickname:data.msg.nickname,
           message:data.msg.message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-          avatar:data.msg.avatar
+          avatar:"av"+data.msg.avatar+".png"
         } 
         this.message.push(msg);
 
@@ -198,7 +193,7 @@ export class ChatComponent implements AfterViewInit {
           time:formattedDate,
           nickname:data.msg.nickname,
           message:data.msg.message.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-          avatar:data.msg.avatar
+          avatar:"av"+data.msg.avatar+".png"
         } 
         this.message.push(msg);
 
@@ -221,7 +216,7 @@ export class ChatComponent implements AfterViewInit {
 
   leaveDrawing() {
     console.log("current", this.socketService.currentRoom);
-    // this.socketService.currentRoom = "randomSHIT";
+
     let link = this.BASE_URL + "drawing/leaveDrawing";
 
     if(this.router.url == "/sidenav") {
@@ -237,13 +232,10 @@ export class ChatComponent implements AfterViewInit {
   }
 
   changeRoom(): void {
-    //this.dialog.open(RoomsComponent, { disableClose: true });
     this.router.navigate(['/', 'rooms']);
     this.playAudio("ui2.wav");
     
-    // if(this.router.url == "/sidenav") {
-    //   this.socketService.drawingName = this.socketService.currentRoom;
-    // }
+   
 
     this.leaveDrawing();
   }
@@ -254,29 +246,19 @@ export class ChatComponent implements AfterViewInit {
     if (text.trim() != '') {
       console.log("avatar", this.socketService.avatarNumber);
       const msg = { time: currentTime, nickname: this.socketService.nickname, message: text.trim(), avatar: this.socketService.avatarNumber };
-      //const mesg = { roomName: this.socketService.currentRoom, msg: { time: currentTime, nickname: this.socketService.nickname, message: text.trim() }};
       const datepipe: DatePipe = new DatePipe('en-CA');
       let formattedDate = datepipe.transform(currentTime, 'dd-MM-yyyy HH:mm:ss') as string;
 
-      var html = '<div class="message-icon">' + '<img src= "avatar0.png" alt="Italian Trulli">' + '</div>' +
-      '<div class="message-icon">' + '<img src= "avatar0.png" alt="Italian Trulli">' + '</div>'
-      document.getElementById("message-icon")!.innerHTML += `${html}`;
-
-      const msgSend={
+      const msgDisplay={
         time:formattedDate,
         nickname:this.socketService.nickname,
         message:text.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n',
-        avatar:this.avatarCurrentUser
-      } 
-      this.message.push(msgSend);
-      //this.others.push(formattedDate + '\n' + this.socketService.nickname + '\n' + text.toString().trim().replace(/(\r\n|\n|\r)/gm, " ") + '\n');
-      //this.others.push(this.socketService.nickname);
-      //this.others.push(text.toString().trim().replace(/(\r\n|\n|\r)/gm, " "));
-      //this.others.push("\n");
-      //this.message.push('\n\n\n');
-      //this.message.push("");
-      //this.message.push("");
-      //this.message.push("\n");
+        avatar:"av"+this.avatarCurrentUser+".png"
+      }
+
+      console.log("display",msgDisplay.avatar);
+
+      this.message.push(msgDisplay);
 
       this.playAudio("msg.wav");
 
@@ -300,21 +282,6 @@ export class ChatComponent implements AfterViewInit {
   }
 
   logout() {
-    /*let link = this.BASE_URL + "user/logoutUser";
-
-    this.playAudio("ui1.wav");
-    // this.socketService.disconnectSocket();
-
-    this.leaveDrawing();
-
-    this.http.post<any>(link,{ useremail: this.socketService.email }).pipe(
-      catchError(async (err) => console.log("error catched" + err))
-    ).subscribe((data: any) => {
-
-      if (data.message == "success") {
-        console.log("sayonara");
-      }   
-    });*/
     this.dialog.open(Logout2Component);
   }
 }
